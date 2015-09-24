@@ -59,7 +59,11 @@ task 'db:populate' do
       adapter: 'sqlite3',
       database: './db/db.sqlite3'
     )
-  RecipesImporter.new.import
+  unless ENV["KEYWORD"]
+    puts "keyword needed to populate the database. Ex.: `rake db:populate KEYWORD=food`"
+    exit
+  end
+  RecipesImporter.new.import(ENV["KEYWORD"])
 end
 
 desc 'Retrieves the current schema version number'
