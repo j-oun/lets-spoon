@@ -10,6 +10,16 @@ require 'sinatra/contrib/all' # Requires cookies, among other things
 
 require 'pry'
 
+# Load these for api calls/extraction in object importers
+require "net/http"
+require "uri"
+require 'active_support/core_ext/hash'
+require '../lib/recipe_importer'
+require '../app/models/recipe'
+require '../app/models/ingredient'
+require '../app/models/recipe_ingredient'
+
+
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
 APP_NAME = APP_ROOT.basename.to_s
 
