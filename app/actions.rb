@@ -1,6 +1,11 @@
 helpers do
   def current_user
-    @user = User.find(1) 
+    @user = User.new(
+      name: "name",
+      email:  "email",
+      password:  "password",
+      diet_id: 1
+    )
   end
 end
 
