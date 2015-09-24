@@ -43,10 +43,17 @@ class RecipesImporter
           
           ingredient_session.each do |ingredient_entry|
             Ingredient.transaction do
-              name = ingredient_entry["Name"]  
-              unit = ingredient_entry["Unit"]
-              quantity = ingredient_entry["Quantity"]         
+              begin
+                name = ingredient_entry["Name"]  
+                unit = ingredient_entry["Unit"]
+                quantity = ingredient_entry["Quantity"]
+              rescue TypeError
+                puts "Insufficient values for ingredients"
+                next
+              end
+                       
               ingredient_hash = {:name => name} 
+              
               ingredient_duplicate = Ingredient.find_by name: name
 
               recipe_ingredients_hash = Hash.new
