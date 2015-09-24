@@ -8,7 +8,17 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra/contrib/all' # Requires cookies, among other things
 
-require 'pry'
+require 'byebug'
+
+# Load these for api calls/extraction in object importers
+require "net/http"
+require "uri"
+require 'active_support/core_ext/hash'
+require_relative '../lib/recipe_importer'
+require_relative '../app/models/recipe'
+require_relative '../app/models/ingredient'
+require_relative '../app/models/recipe_ingredient'
+
 
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
 APP_NAME = APP_ROOT.basename.to_s

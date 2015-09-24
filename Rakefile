@@ -1,6 +1,9 @@
 require 'rake'
 require "sinatra/activerecord/rake"
 require ::File.expand_path('../config/environment', __FILE__)
+require 'active_record'
+require 'active_support/all'
+
 
 Rake::Task["db:create"].clear
 Rake::Task["db:drop"].clear
@@ -47,6 +50,20 @@ task 'db:create_migration' do
   MIGRATION
 
   puts path
+end
+
+desc 'populate the test database with data'
+task 'db:populate' do
+  # AppConfig.establish_connection
+  ActiveRecord::Base.establish_connection(
+      adapter: 'sqlite3',
+      database: './db/db.sqlite3'
+    )
+  unless ENV["KEYWORD"]
+    puts "keyword needed to populate the database. Ex.: `rake db:populate KEYWORD=food`"
+    exit
+  end
+  RecipesImporter.new.import(ENV["KEYWORD"])
 end
 
 desc 'Retrieves the current schema version number'
