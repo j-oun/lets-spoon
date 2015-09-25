@@ -2,8 +2,6 @@ class RecipesImporter
 
   API_KEY = "4ZmjE50zOoqJ3YCG1na137DS3o4s92zU"
 
-
-
   def initialize
    
   end
@@ -16,6 +14,29 @@ class RecipesImporter
     recipe[:instructions] = session["Recipe"]["Instructions"]
     recipe[:image_url] = session["Recipe"]["ImageURL"]
     recipe
+  end
+
+  def add_banned_ingredients
+    # after this, add more banned_ingredients based from the diet's list of initial banned ingredients
+    pescatarian_array = ['meat','steak','beef','chicken','poultry','turkey','lamb','pork','bacon']
+    vegetarian_array = pescatarian_array + ['fish','salmon','trout','tuna'] 
+    vegan_array = vegetarian_array + ['eggs','cheese','milk','yogurt','cream','honey']
+    gluten_free_array = ['flour','wheat','rye','barley','bulgur','bulghu','couscous','cous','kamut','semolina','pelt']
+    
+    diet_array = [vegetarian_array,pescatarian_array,vegan_array,gluten_free_array]
+    
+    Ingredient.all.each do |ingredient|
+      diet_array.each_with_index do |diet,diet_index|
+        diet.each do |element|
+        banned_duplicate = BannedIngredient.find_by ingredient_id: ingredient.id
+        unless banned_duplicate
+          BannedIngredient.transaction do 
+            BannedIngredient.create!(diet_id: diet_index+1,ingredient_id: ingredient.id) if ingredient.name.downcase.match(/.*#{element}.*/)
+          end
+        end
+        end
+      end
+    end
   end
 
   def import(keyword)
@@ -72,17 +93,9 @@ class RecipesImporter
 
             end           
           end
-          # after this, add more banned_ingredients based from the diet's list of initial banned ingredients
-          # grab name from ingr where ing.id = banned.id
-            
-          vegetarian_array = ['meat','steak','beef','chicken','poultry','fish','salmon','trout','tuna','turkey','lamb','pork','bacon']
-          Ingredient.all.each do |ingredient|
-            # select id from ingredients where name = grabbed name
-            vegetarian_array.each do |element|
+          
+          add_banned_ingredients
 
-            BannedIngredient.create!(diet_id: 1,ingredient_id: ingredient.id) if ingredient.name.downcase.match(/.*#{element}.*/)
-            end
-          end
           print '.'
         rescue ActiveRecord::UnknownAttributeError
           recipe_failure_count += 1
