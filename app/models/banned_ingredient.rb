@@ -1,4 +1,6 @@
 class BannedIngredient < ActiveRecord::Base
-  belongs_to :diets
+  
+  belongs_to :diet
   belongs_to :ingredient
+
 end
