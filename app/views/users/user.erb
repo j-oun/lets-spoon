@@ -1,63 +1,75 @@
 
-  <div class="container">
-    <div class="jumbotron">
+<body>
+<main>
+  <section class="user container">
+    <article class="row">
+      <div class="col-sm-10 col-sm-push-1">
+        <header>
+          <h1 class="text-center">Edit Your Details</h1>
+        </header>
+        <figure>
+          <img class="center-block" src="http://s21.postimg.org/93tj1rs3b/doge.jpg"/>
+        </figure>
 
-    <h1 class="text-center">Edit Your Details</h1>
+        <form class="form-horizontal">
+          <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-5">
+            <button type="changePhoto" class="btn btn-danger">Change Profile Photo</button>
+                  </div>
+                </div>
 
-   
-    <form class="form-horizontal">
-      <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <img src="http://s4.postimg.org/bxgg5ftwd/Nicholas_Fraser_Why_You_Always_Lying_video_640x4.jpg">
-      </div>
-      </div>
-      
-       <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-5">
-            <button type="changeAvatar" class="btn btn-danger">Change Profile Photo</button>
-          </div>
-        </div>
+               <div class="form-group">
+                  <label for="inputName1" class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-8">
+                      <input type="name" class="form-control" id="inputName1" placeholder="Name">
+                    </div>
+                </div>
 
-       <div class="form-group">
-          <label for="inputName1" class="col-sm-2 control-label">Name</label>
-            <div class="col-sm-5">
-              <input type="name" class="form-control" id="inputName1" placeholder="Name">
+            <div class="form-group">
+             <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+              </div>
             </div>
-        </div>
 
-    <div class="form-group">
-     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-      <div class="col-sm-5">
-        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-8">
+                  <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+              </div>
+            </div>
+                
+              <div class="form-group">
+            <label for="inputDiet3" class="col-sm-2 control-label">Diet</label>
+            <div class="col-sm-8">
+              <select class="form-control">
+                <option>Choose One</option>
+                <option>Vegan</option>
+                <option>Paleo</option>
+                <option>Pescatarian</option>
+                <option>Gluten Free</option>
+                <option>Vegetarian</option>
+                <option>Lactose</option>
+              </select>
+            </div>
+           </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-1">
+                <button type="updateSettings" class="btn btn-default">Update Settings</button>
+              </div>
+            </div>
+          </form>
+        
       </div>
-    </div>
-
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-      <div class="col-sm-5">
-        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-    </div>
-  </div>
-      
-    <div class="form-group">
-  <label for="inputDiet3" class="col-sm-2 control-label">Dietary Preference</label>
-  <div class="col-sm-5">
-    <select class="form-control">
-      <option>Vegan</option>
-      <option>Paleo</option>
-      <option>Gluten Free</option>
-      <option>Vegetarian</option>
-    </select>
-  </div>
- </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="updateSettings" class="btn btn-default">Update Settings</button>
-    </div>
-  </div>
-</form>
+    </article>
+  </section>
+</main>
 
 
-  </div>
-</div>
+
+
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+
