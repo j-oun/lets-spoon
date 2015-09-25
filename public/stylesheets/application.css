@@ -14,3 +14,11 @@ main > section > header { padding: 0 0 5em; }
 .recipes .ingredients { font-size: 150%; font-weight: 300; margin: 2em 0; }
 
 #main-nav { margin-bottom: 0; }
+
+.user,
+.user header { background: #fff; }
+.user article { padding: 0 0 10em; }
+.user h1 { font-size: 5em; margin-top: 1em; }
+.user img { width: 250px; height: 250px;}
+.user form { width: 390px ; margin: 0 auto; }
+.user label { padding: 1em 0; }
