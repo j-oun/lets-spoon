@@ -28,6 +28,10 @@ get '/search' do
 end
 
 get '/recipes/:id' do
+  @recipe = Recipe.find(5)
+
+  @instructions = @recipe.instructions.split('. ')
+  # binding.pry
   erb :'recipes/recipe'
 end
 
