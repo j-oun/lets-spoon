@@ -7,7 +7,7 @@ require 'active_support/all'
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra/contrib/all' # Requires cookies, among other things
-
+# require 'pry'
 require 'byebug'
 
 # Load these for api calls/extraction in object importers
