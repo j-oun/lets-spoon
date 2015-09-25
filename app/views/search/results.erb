@@ -13,9 +13,9 @@
             <h2 class="text-center"><%= recipe.name %></h2>
           </header>
           <figure>
-            <img src="<%=  %>"/>
+            <img src="<%= recipe.image_url %>"/>
           </figure>
-          <p class="lead"><%=  %></p>
+          <p class="lead"><%= recipe.description %></p>
           <p class="pull-right">
             <a href="/recipes/<%= recipe.id %>" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
           </p>
