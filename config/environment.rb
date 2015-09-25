@@ -18,6 +18,9 @@ require_relative '../lib/recipe_importer'
 require_relative '../app/models/recipe'
 require_relative '../app/models/ingredient'
 require_relative '../app/models/recipe_ingredient'
+require_relative '../app/models/banned_ingredient'
+require_relative '../app/models/diet'
+require_relative '../app/models/user'
 
 
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
