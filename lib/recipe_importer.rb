@@ -51,15 +51,18 @@ class RecipesImporter
     
     recipe_array.each do |recipe_entry|
       recipe_failure_count = 0
+      
+      url = URI.parse("http://api.bigoven.com/recipe/" + recipe_entry + "?api_key=#{API_KEY}")
+      recipe_response = Net::HTTP.get(url)
+      recipe_hash = Hash.from_xml(recipe_response)
+      
+      # check if a recipe has a list of ingredients
+      next if recipe_hash["Recipe"]["Ingredients"].nil?
+
       Recipe.transaction do
         begin
-          url = URI.parse("http://api.bigoven.com/recipe/" + recipe_entry + "?api_key=#{API_KEY}")
-          recipe_response = Net::HTTP.get(url)
-          recipe_hash = Hash.from_xml(recipe_response)
-
           recipe = Recipe.create!(construct_recipe(recipe_hash))
-
-          # creating ingredients and recipe_ingredients
+          
           ingredient_hash = recipe_hash["Recipe"]["Ingredients"]["Ingredient"]
           
           ingredient_hash.each do |ingredient_entry|
