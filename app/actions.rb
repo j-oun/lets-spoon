@@ -1,6 +1,11 @@
 helpers do
   def current_user
-    @user = User.find(1) 
+    @user = User.create(
+      name: 'Doge', 
+      email: 'doge@doge.com', 
+      password: 'password',
+      diet_id: 3
+    ) 
   end
 end
 
@@ -39,11 +44,9 @@ get '/search' do
         WHERE recipe_ingredients.ingredient_id IN ( 
           SELECT ingredient_id 
           FROM banned_ingredients 
-          JOIN diets ON banned_ingredients.diet_id = diets.id
-          WHERE diets.id = 4
+          WHERE diet_id = #{diet}
     )
-  )
-  
+  )  
   GROUP BY recipes.id;")
 
 #{@search_term}
