@@ -16,12 +16,33 @@ class RecipesImporter
     recipe
   end
 
+  def add_banned_ingredients
+    # after this, add more banned_ingredients based from the diet's list of initial banned ingredients
+    pescatarian_array = ['meat','steak','beef','chicken','poultry','turkey','lamb','pork','bacon']
+    vegetarian_array = pescatarian_array + ['fish','salmon','trout','tuna'] 
+    vegan_array = vegetarian_array + ['eggs','cheese','milk','yogurt','cream','honey']
+    gluten_free_array = ['flour','wheat','rye','barley','bulgur','bulghu','couscous','cous','kamut','semolina','pelt']
+    
+    diet_array = [vegetarian_array,pescatarian_array,vegan_array,gluten_free_array]
+    
+    Ingredient.all.each do |ingredient|
+      diet_array.each_with_index do |diet,diet_index|
+        diet.each do |element|
+        banned_duplicate = BannedIngredient.find_by ingredient_id: ingredient.id
+        unless banned_duplicate
+          BannedIngredient.transaction do 
+            BannedIngredient.create!(diet_id: diet_index+1,ingredient_id: ingredient.id) if ingredient.name.downcase.match(/.*#{element}.*/)
+          end
+        end
+        end
+      end
+    end
+  end
+
   def import(keyword)
-    # keyword is used to populate recipes and ingredients associated from the keyword 
    
     uri = URI.parse("http://api.bigoven.com/recipes?title_kw=#{keyword}&pg=1&rpp=20&api_key=#{API_KEY}")
 
-    # Shortcut
     response = Net::HTTP.get(uri)
 
     session = Hash.from_xml(response)
@@ -34,41 +55,48 @@ class RecipesImporter
         begin
           url = URI.parse("http://api.bigoven.com/recipe/" + recipe_entry + "?api_key=#{API_KEY}")
           recipe_response = Net::HTTP.get(url)
-          session = Hash.from_xml(recipe_response)
+          recipe_hash = Hash.from_xml(recipe_response)
 
-          recipe = Recipe.create!(construct_recipe(session))
+          recipe = Recipe.create!(construct_recipe(recipe_hash))
 
           # creating ingredients and recipe_ingredients
-          ingredient_session = session["Recipe"]["Ingredients"]["Ingredient"]
+          ingredient_hash = recipe_hash["Recipe"]["Ingredients"]["Ingredient"]
           
-          ingredient_session.each do |ingredient_entry|
+          ingredient_hash.each do |ingredient_entry|
             Ingredient.transaction do
-              name = ingredient_entry["Name"]  
-              unit = ingredient_entry["Unit"]
-              quantity = ingredient_entry["Quantity"]         
-              ingredient_hash = {:name => name} 
+              begin
+                name = ingredient_entry["Name"]  
+                unit = ingredient_entry["Unit"]
+                quantity = ingredient_entry["Quantity"]
+              rescue TypeError
+                puts "Insufficient values for ingredients"
+                next
+              end
+              
               ingredient_duplicate = Ingredient.find_by name: name
 
               recipe_ingredients_hash = Hash.new
 
+              id = nil
               if ingredient_duplicate
                 id = ingredient_duplicate.id
-                recipe_ingredients_hash = {:recipe_id => recipe.id, :ingredient_id => id,:quantity => quantity, :unit => unit}
               else
-                ingredient = Ingredient.create!(ingredient_hash) 
+                ingredient = Ingredient.create!(:name => name) 
                 id = ingredient.id
-                recipe_ingredients_hash = {:recipe_id => recipe.id, :ingredient_id => id,:quantity => quantity, :unit => unit}    
               end             
-              
+
+              recipe_ingredients_hash = {:recipe_id => recipe.id, :ingredient_id => id,:quantity => quantity, :unit => unit}
+
               RecipeIngredient.transaction do 
                 RecipeIngredient.create!(recipe_ingredients_hash)
               end
 
-            end
-
+            end           
           end
-          print '.'
+          
+          add_banned_ingredients
 
+          print '.'
         rescue ActiveRecord::UnknownAttributeError
           recipe_failure_count += 1
           print '!'
