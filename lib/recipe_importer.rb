@@ -2,6 +2,8 @@ class RecipesImporter
 
   API_KEY = "4ZmjE50zOoqJ3YCG1na137DS3o4s92zU"
 
+
+
   def initialize
    
   end
@@ -68,11 +70,20 @@ class RecipesImporter
                 RecipeIngredient.create!(recipe_ingredients_hash)
               end
 
-            end
+            end           
+          end
+          # after this, add more banned_ingredients based from the diet's list of initial banned ingredients
+          # grab name from ingr where ing.id = banned.id
+            
+          vegetarian_array = ['meat','steak','beef','chicken','poultry','fish','salmon','trout','tuna','turkey','lamb','pork','bacon']
+          Ingredient.all.each do |ingredient|
+            # select id from ingredients where name = grabbed name
+            vegetarian_array.each do |element|
 
+            BannedIngredient.create!(diet_id: 1,ingredient_id: ingredient.id) if ingredient.name.downcase.match(/.*#{element}.*/)
+            end
           end
           print '.'
-
         rescue ActiveRecord::UnknownAttributeError
           recipe_failure_count += 1
           print '!'
