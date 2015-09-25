@@ -1,0 +1,16 @@
+body { background: #eee; }
+
+figure { margin: 2em 0; }
+
+img { max-width: 100%; }
+
+main > section > header { padding: 0 0 5em; }
+
+.recipes,
+.recipes header { background: #fff; }
+.recipes article { padding: 0 0 10em; }
+.recipes h1 { font-size: 5em; margin-top: 1em; }
+.recipes .directions,
+.recipes .ingredients { font-size: 150%; font-weight: 300; margin: 2em 0; }
+
+#main-nav { margin-bottom: 0; }
