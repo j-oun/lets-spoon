@@ -3,22 +3,23 @@
 <main>
   <section class="recipes container">
     <header>
-      <h1 class="text-center">Search results for: Cheese</h1>
+      <h1 class="text-center">Search results for: <%= @search_term %></h1>
     </header>
     <div class="row">
       <div class="col-sm-8 col-sm-push-2">
         <article>
+          <% @recipes.each do |recipe| %>
           <header>
-            <h2 class="text-center">Mac &amp; Cheese</h2>
+            <h2 class="text-center"><%= recipe.name %></h2>
           </header>
           <figure>
-            <img src="http://mtltimes.ca/wp-content/uploads/2015/03/mac-and-cheese.jpg" alt="macaroni can cheese"/>
+            <img src="<%= recipe.image_url %>"/>
           </figure>
-          <p class="lead">Your family will fall in love with homemade mac and cheese all over again. Trust us, this
-            ooey-gooey oven bake is cheesier than you ever thought possible.</p>
+          <p class="lead"><%= recipe.description %></p>
           <p class="pull-right">
-            <a href="#" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
+            <a href="/recipes/<%= recipe.id %>" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
           </p>
+          <% end %>
         </article>
         <article>
           <header>
@@ -57,59 +58,3 @@
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
-=======
-<body>
-
-<main>
-  <section class="recipes container">
-    <header>
-      <h1 class="text-center">Search results for: Cheese</h1>
-    </header>
-    <div class="row">
-      <div class="col-sm-8 col-sm-push-2">
-        <article>
-          <header>
-            <h2 class="text-center">Mac &amp; Cheese</h2>
-          </header>
-          <figure>
-            <img src="http://mtltimes.ca/wp-content/uploads/2015/03/mac-and-cheese.jpg" alt="macaroni can cheese"/>
-          </figure>
-          <p class="lead">Your family will fall in love with homemade mac and cheese all over again. Trust us, this
-            ooey-gooey oven bake is cheesier than you ever thought possible.</p>
-          <p class="pull-right">
-            <a href="#" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
-          </p>
-        </article>
-        <article>
-          <header>
-            <h2 class="text-center">Mac &amp; Cheese</h2>
-          </header>
-          <figure>
-            <img src="http://mtltimes.ca/wp-content/uploads/2015/03/mac-and-cheese.jpg" alt="macaroni can cheese"/>
-          </figure>
-          <p class="lead">Your family will fall in love with homemade mac and cheese all over again. Trust us, this
-            ooey-gooey oven bake is cheesier than you ever thought possible.</p>
-          <p class="pull-right">
-            <a href="#" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
-          </p>
-        </article>
-        <article>
-          <header>
-            <h2 class="text-center">Mac &amp; Cheese</h2>
-          </header>
-          <figure>
-            <img src="http://mtltimes.ca/wp-content/uploads/2015/03/mac-and-cheese.jpg" alt="macaroni can cheese"/>
-          </figure>
-          <p class="lead">Your family will fall in love with homemade mac and cheese all over again. Trust us, this
-            ooey-gooey oven bake is cheesier than you ever thought possible.</p>
-          <p class="pull-right">
-            <a href="#" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-</main>
-</body>
-
-
