@@ -1,11 +1,6 @@
 helpers do
   def current_user
-    @user = User.new(
-      name: "name",
-      email:  "email",
-      password:  "password",
-      diet_id: 1
-    )
+    @user = User.find(1) 
   end
 end
 
@@ -24,6 +19,12 @@ end
 get '/search' do
   @search_term = params[:search_term]
   erb :'search/results'
+
+  @recipes = Recipe.joins(:ingredients).where(
+    "ingredients.name LIKE :search OR recipes.name LIKE :search OR recipes.description LIKE :search", 
+    search: "%#{@search_term}%"
+  ).where("ingredients.id NOT IN (?)", [3]).group(:id)
+  
 end
 
 get '/recipes/:id' do
