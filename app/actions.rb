@@ -1,16 +1,23 @@
 helpers do
   def current_user
-    @user = User.create(
-      name: 'Doge', 
-      email: 'doge@doge.com', 
-      password: 'password',
-    ) 
-    @diet1 = UsersDiet.create(
-      user_id: @user.id,
-      diet_id: 3)
-    @diet2 = UsersDiet.create(
-      user_id: @user.id,
-      diet_id: 0)
+    @user = User.first
+    # @user = User.create(
+    #   name: 'Doge', 
+    #   email: 'doge@doge.com', 
+    #   password: 'password',
+    # ) 
+    # @diet1 = UsersDiet.create(
+    #   user_id: @user.id,
+    #   diet_id: 3)
+    # @diet2 = UsersDiet.create(
+    #   user_id: @user.id,
+    #   diet_id: 0)
+    @diet1 = UsersDiet.find_by(user_id: @user.id, diet_id: 1)
+    @diet2 = UsersDiet.find_by(user_id: @user.id, diet_id: 2)
+    @diet3 = UsersDiet.find_by(user_id: @user.id, diet_id: 3)
+    @diet4 = UsersDiet.find_by(user_id: @user.id, diet_id: 4)
+    @diet5 = UsersDiet.find_by(user_id: @user.id, diet_id: 5)
+    @diet6 = UsersDiet.find_by(user_id: @user.id, diet_id: 6)
   end
 end
 
@@ -67,4 +74,79 @@ get '/recipes/:id' do
   @instructions = @recipe.instructions.split('. ')
   erb :'recipes/recipe'
 end 
+
+post '/users/:id/update' do
+  # byebug
+
+  if params[:pesc]    
+    unless @diet1
+      UsersDiet.create(
+        user_id: @user.id,
+        diet_id: 1
+      )
+    end
+  else     
+    @diet1.destroy if @diet1
+  end
+
+  if params[:vegetarian]
+    unless @diet2
+      UsersDiet.create(
+        user_id: @user.id,
+        diet_id: 2
+      )
+    end
+  else 
+    # byebug
+    @diet2.destroy if @diet2
+  end
+
+
+  if params[:vegan]    
+    unless @diet3
+      UsersDiet.create(
+        user_id: @user.id,
+        diet_id: 3
+      )
+    end
+  else 
+    @diet3.destroy if @diet3
+  end
+
+  if params[:glut]    
+    unless @diet4
+      UsersDiet.create(
+        user_id: @user.id,
+        diet_id: 4
+      )
+    end
+  else     
+    @diet4.destroy if @diet4
+  end
+
+  if params[:paleo] 
+    unless @diet5
+      UsersDiet.create(
+        user_id: @user.id,
+        diet_id: 5
+      )
+    end
+  else 
+    @diet5.destroy if @diet5
+  end
+
+  if params[:lact]
+    unless @diet6
+      UsersDiet.create(
+        user_id: @user.id,
+        diet_id: 6
+      )
+    end
+  else 
+    @diet6.destroy if @diet6
+  end
+
+  redirect "/users/#{params[:id]}"
+end
+
 
