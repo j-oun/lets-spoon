@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
 
-  belongs_to :diet
-  
+  has_many :user_diets
 
 end

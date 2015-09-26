@@ -4,8 +4,13 @@ helpers do
       name: 'Doge', 
       email: 'doge@doge.com', 
       password: 'password',
-      diet_id: 3
     ) 
+    @diet1 = UsersDiet.create(
+      user_id: @user.id,
+      diet_id: 3)
+    @diet2 = UsersDiet.create(
+      user_id: @user.id,
+      diet_id: 0)
   end
 end
 
@@ -23,7 +28,7 @@ end
 
 get '/search' do
   @search_term = params[:search_term]
-  diet = @user.diet_id
+
   @recipes = Recipe.find_by_sql(
     "SELECT r.name, r.description, r.image_url, r.id
       FROM recipes as r 
@@ -44,14 +49,15 @@ get '/search' do
         WHERE r_i.ingredient_id IN ( 
           SELECT ingredient_id 
           FROM banned_ingredients 
-          WHERE diet_id = #{diet}
-    )
-  )  
-  GROUP BY r.id;")
-
-#{@search_term}
+          WHERE diet_id IN (
+            SELECT diet_id 
+              FROM users_diets
+              WHERE user_id = #{@user.id}
+          )
+        )
+      )  
+      GROUP BY r.id;")
   
-
   erb :'search/results'
 end
 
