@@ -7,7 +7,7 @@ helpers do
     ) 
     @diet1 = UsersDiet.create(
       user_id: @user.id,
-      diet_id: 1)
+      diet_id: 3)
     @diet2 = UsersDiet.create(
       user_id: @user.id,
       diet_id: 0)
@@ -52,7 +52,8 @@ get '/search' do
           WHERE diet_id IN (
             SELECT diet_id 
               FROM users_diets
-              WHERE user_id = #{@user.id})
+              WHERE user_id = #{@user.id}
+          )
         )
       )  
       GROUP BY r.id;")
