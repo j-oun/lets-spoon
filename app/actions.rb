@@ -1,23 +1,28 @@
 helpers do
   def current_user
-    @user = User.first
+  
+      @user = User.find(session[:user_id]) if session[:user_id]
+    # @user = User.first
     # @user = User.create(
     #   name: 'Doge', 
     #   email: 'doge@doge.com', 
     #   password: 'password',
     # ) 
-    # @diet1 = UsersDiet.create(
-    #   user_id: @user.id,
-    #   diet_id: 3)
-    # @diet2 = UsersDiet.create(
-    #   user_id: @user.id,
-    #   diet_id: 0)
-    @diet1 = UsersDiet.find_by(user_id: @user.id, diet_id: 1)
-    @diet2 = UsersDiet.find_by(user_id: @user.id, diet_id: 2)
-    @diet3 = UsersDiet.find_by(user_id: @user.id, diet_id: 3)
-    @diet4 = UsersDiet.find_by(user_id: @user.id, diet_id: 4)
-    @diet5 = UsersDiet.find_by(user_id: @user.id, diet_id: 5)
-    @diet6 = UsersDiet.find_by(user_id: @user.id, diet_id: 6)
+    if @user
+      @diet1 = UsersDiet.find_by(user_id: @user.id, diet_id: 1)
+      @diet2 = UsersDiet.find_by(user_id: @user.id, diet_id: 2)
+      @diet3 = UsersDiet.find_by(user_id: @user.id, diet_id: 3)
+      @diet4 = UsersDiet.find_by(user_id: @user.id, diet_id: 4)
+      @diet5 = UsersDiet.find_by(user_id: @user.id, diet_id: 5)
+      @diet6 = UsersDiet.find_by(user_id: @user.id, diet_id: 6)
+    else
+      @diet1 = UsersDiet.find_by(user_id: 0, diet_id: 1)
+      @diet2 = UsersDiet.find_by(user_id: 0, diet_id: 2)
+      @diet3 = UsersDiet.find_by(user_id: 0, diet_id: 3)
+      @diet4 = UsersDiet.find_by(user_id: 0, diet_id: 4)
+      @diet5 = UsersDiet.find_by(user_id: 0, diet_id: 5)
+      @diet6 = UsersDiet.find_by(user_id: 0, diet_id: 6)
+    end
   end
 end
 
@@ -29,8 +34,31 @@ get '/' do
   erb :index
 end
 
+get '/users/login' do
+  erb :'users/login'
+end
+
 get '/users/:id' do
   erb :'users/user'
+end
+
+post '/users/login' do
+  email = params[:email]
+
+  user = User.find_by(email: email)
+
+  if user 
+    session[:user_id] = user.id
+  else 
+    session[:error] = "Invalid credentials"
+  end
+
+  redirect '/'
+end
+
+get '/logout' do
+  session.clear
+  redirect '/'
 end
 
 get '/search' do
@@ -76,8 +104,6 @@ get '/recipes/:id' do
 end 
 
 post '/users/:id/update' do
-  # byebug
-
   if params[:pesc]    
     unless @diet1
       UsersDiet.create(
@@ -97,10 +123,8 @@ post '/users/:id/update' do
       )
     end
   else 
-    # byebug
     @diet2.destroy if @diet2
   end
-
 
   if params[:vegan]    
     unless @diet3
