@@ -33,6 +33,7 @@ class RecipesImporter
         end
       end
     end
+  end
 
   def import(keyword)
    
