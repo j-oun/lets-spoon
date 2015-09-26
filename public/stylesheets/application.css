@@ -23,13 +23,16 @@ main > section > header { padding: 0 0 5em; }
 #main-nav .navbar-form .glyphicon { margin-left: -8em; }
 
 
-.user,
+.user { width: 800px; background: #fff; }
 .user header { background: #fff; }
 .user article { padding: 0 0 10em; }
 .user h1 { font-size: 5em; margin-top: 1em; }
 .user img { width: 250px; height: 250px;}
 .user form { width: 390px ; margin: 0 auto; }
 .user label { padding: 1em 0; }
+.user .update { margin-left: 10%; margin-top: 2em;}
+.user .checkbox { height: 10px; }
+.user .check { margin-left: 70px; margin-top: -12px; }
 
 .navbar,
 .navbar-default { background-color: #c11f0f; border-color: #9a1a0c; }
@@ -78,6 +81,6 @@ main > section > header { padding: 0 0 5em; }
 .landing-page { width: 800px; background: #fff; }
 .landing-page article { padding: 0 0 2em; }
 .landing-page h1 { font-size: 5em; margin-top: 10px; }
-.landing-page .attachment-home-box { width: 140px; height: 140px;}
+.landing-page .pic-1 { width: 140px; height: 140px;}
 .landig-page .text-phrase { margin-top: 10px; }
 .landing-page .row:first-of-type { margin-top: 2em; }
