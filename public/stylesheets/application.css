@@ -6,7 +6,7 @@ img { max-width: 100%; }
 
 main > section > header { padding: 0 0 5em; }
 
-.recipes,
+.recipes { width: 800px; background: #fff; }
 .recipes header { background: #fff; }
 .recipes article { padding: 0 0 10em; }
 .recipes h1 { font-size: 5em; margin-top: 1em; }
@@ -15,8 +15,9 @@ main > section > header { padding: 0 0 5em; }
 
 #main-nav { margin-bottom: 0; }
 #main-nav a { font-weight: 500; font-size: 120%; margin-right: 20px; }
-#main-nav .navbar-brand img { width: 115px; height: 25px; margin-left: 10px; }
-#main-nav .navbar-brand-icon img { width: 22px; height: 30px; margin-top: 10px; }
+#main-nav .navbar-brand { width: 115px; height: 25px; margin: 13px 10px 0 10px; padding: 0; }
+#main-nav .navbar-brand-icon { width: 22px; height: 30px; margin: 10px 10px 0 10px;}
+#main-nav .navbar-form { padding: 0; }
 #main-nav .navbar-form .form-control { width: 300%; }
 #main-nav .navbar-form .btn { margin-left: 25em;}
 #main-nav .navbar-form .glyphicon { margin-left: -8em; }
@@ -64,3 +65,9 @@ main > section > header { padding: 0 0 5em; }
     background-color: #9a1a0c;
   }
 }
+
+.landing-page {
+  width: 800px;
+ background: #fff; }
+.landing-page article { padding: 0 0 10em; }
+.landing-page h1 { font-size: 5em; margin-top: 1em; }
