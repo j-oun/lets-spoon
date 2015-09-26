@@ -39,11 +39,12 @@
               </div>
             </div> -->
                 
-              <div class="form-group">
-            <label for="inputDiet3" class="col-sm-2 control-label">Diet</label>
-            <div class="row">
+      
+            <div class="form-group">
+            <label for="inputDiet3" class="col-sm-2 control-label">Diet:</label>
+            <div class="check col-sm-8">
 
-              <div class="checkbox-inline">
+              <div class="checkbox">
                 <label>
                   <input type="checkbox" name="pesc" value=true 
                     <% if @diet1 %>
@@ -53,7 +54,7 @@
                 </label>
               </div>
           
-              <div class="checkbox-inline">
+              <div class="checkbox">
                 <label>
                   <input type="checkbox"  name="vegan" value=true
                    <% if @diet2 %>
@@ -63,7 +64,7 @@
                 </label>
               </div>
                   
-              <div class="checkbox-inline">
+              <div class="checkbox">
                 <label>
                   <input type="checkbox" name="vegetarian" value=true
                     <% if @diet3 %>
@@ -74,7 +75,7 @@
               </div>
                   
                   
-              <div class="checkbox-inline">
+              <div class="checkbox">
                 <label>
                   <input type="checkbox" name="paleo" value=true
                     <% if @diet4 %>
@@ -84,7 +85,7 @@
                 </label>
               </div>
                   
-              <div class="checkbox-inline">
+              <div class="checkbox">
                 <label>
                   <input type="checkbox" name="glut" value=true
                     <% if @diet5 %>
@@ -94,7 +95,7 @@
                 </label>
               </div>
                   
-              <div class="checkbox-inline">
+              <div class="checkbox">
                 <label>
                   <input type="checkbox" name="lact" value=true
                     <% if @diet6 %>
@@ -106,12 +107,11 @@
                    </div>
            </div> 
             <div class="form-group">
-              <div class="col-sm-offset-3 col-sm-1">
-                <button class="btn btn-default">Update Settings</button>
+              <div class="col-sm-offset-3 col-sm-5">
+                <button class="update btn btn-default">Update Settings</button>
               </div>
             </div>
           </form>
-        
       </div>
     </article>
   </section>
