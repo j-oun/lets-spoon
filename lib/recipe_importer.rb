@@ -16,7 +16,7 @@ class RecipesImporter
     recipe
   end
 
-  def add_banned_ingredients
+  def add_banned_ingredients(current_ingredient)
     # after this, add more banned_ingredients based from the diet's list of initial banned ingredients
     pescatarian_array = ['meat','steak','beef','chicken','poultry','turkey','lamb','pork','bacon']
     vegetarian_array = pescatarian_array + ['fish','salmon','trout','tuna'] 
@@ -25,18 +25,14 @@ class RecipesImporter
     
     diet_array = [vegetarian_array,pescatarian_array,vegan_array,gluten_free_array]
     
+
     Ingredient.all.each do |ingredient|
       diet_array.each_with_index do |diet,diet_index|
         diet.each do |element|
-          # banned_duplicate = BannedIngredient.find_by ingredient_id: ingredient.id
-          # unless banned_duplicate
-              BannedIngredient.create!(diet_id: diet_index+1,ingredient_id: ingredient.id) if ingredient.name.downcase.match(/.*#{element}.*/)
-            # end
-          # end
+          BannedIngredient.create!(diet_id: diet_index+1,ingredient_id: current_ingredient.id) if current_ingredient.name.downcase.match(/.*#{element}.*/)
         end
       end
     end
-  end
 
   def import(keyword)
    
@@ -78,9 +74,10 @@ class RecipesImporter
               ingredient_duplicate = Ingredient.find_by name: name
 
               recipe_ingredients_hash = Hash.new
-
+              ingredient = nil
               id = nil
               if ingredient_duplicate
+                ingredient = ingredient_duplicate
                 id = ingredient_duplicate.id
               else
                 ingredient = Ingredient.create!(:name => name) 
@@ -92,11 +89,11 @@ class RecipesImporter
               RecipeIngredient.transaction do 
                 RecipeIngredient.create!(recipe_ingredients_hash)
               end
-
+              add_banned_ingredients(ingredient)
             end           
           end
           
-          add_banned_ingredients
+          
 
           print '.'
         rescue ActiveRecord::UnknownAttributeError
