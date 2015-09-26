@@ -30,9 +30,8 @@ class RecipesImporter
         diet.each do |element|
           # banned_duplicate = BannedIngredient.find_by ingredient_id: ingredient.id
           # unless banned_duplicate
-            BannedIngredient.transaction do 
               BannedIngredient.create!(diet_id: diet_index+1,ingredient_id: ingredient.id) if ingredient.name.downcase.match(/.*#{element}.*/)
-            end
+            # end
           # end
         end
       end
