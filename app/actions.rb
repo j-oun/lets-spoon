@@ -25,32 +25,32 @@ get '/search' do
   @search_term = params[:search_term]
   diet = @user.diet_id
   @recipes = Recipe.find_by_sql(
-    "SELECT *
-      FROM recipes 
-      JOIN recipe_ingredients 
-        ON recipes.id = recipe_ingredients.recipe_id
-      JOIN ingredients
-        ON recipe_ingredients.ingredient_id = ingredients.id
+    "SELECT r.name, r.description, r.image_url, r.id
+      FROM recipes as r 
+      JOIN recipe_ingredients as r_i 
+        ON r.id = r_i.recipe_id
+      JOIN ingredients as i
+        ON r_i.ingredient_id = i.id
       WHERE (
-        recipes.name LIKE '%#{@search_term}%'
-        OR recipes.description LIKE '%#{@search_term}%'  
-        OR ingredients.name LIKE '%#{@search_term}%' 
+        r.name LIKE '%#{@search_term}%'
+        OR r.description LIKE '%#{@search_term}%'  
+        OR i.name LIKE '%#{@search_term}%' 
       )  
-      AND recipes.id NOT IN (
-        SELECT recipes.id 
-        FROM recipes 
-        JOIN recipe_ingredients 
-          ON recipes.id = recipe_ingredients.recipe_id
-        WHERE recipe_ingredients.ingredient_id IN ( 
+      AND r.id NOT IN (
+        SELECT r.id 
+        FROM recipes as r 
+        JOIN recipe_ingredients as r_i 
+          ON r.id = r_i.recipe_id
+        WHERE r_i.ingredient_id IN ( 
           SELECT ingredient_id 
           FROM banned_ingredients 
           WHERE diet_id = #{diet}
     )
   )  
-  GROUP BY recipes.id;")
+  GROUP BY r.id;")
 
 #{@search_term}
-  # byebug
+  
 
   erb :'search/results'
 end
