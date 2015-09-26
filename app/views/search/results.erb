@@ -4,6 +4,87 @@
     <header>
       <h1 class="text-center">Search results for: <%= @search_term %></h1>
     </header>
+
+    <% unless @user %>
+
+    <section id="diets_list" class="text-center">
+      <form action="/search/refine" method="post">
+        <div class="form-group" >
+            <!-- <label for="inputDiet3" class="col-sm-2 control-label">Diet</label> -->
+          <div class="center-block">
+
+            <div class="checkbox-inline">
+              <label>
+                <input type="checkbox" name="pesc" value=true 
+                  <% if @diet1 %>
+                    checked
+                  <% end %>  
+                > Pescatarian
+              </label>
+            </div>
+          
+            <div class="checkbox-inline">
+              <label>
+                <input type="checkbox"  name="vegan" value=true
+                 <% if @diet2 %>
+                    checked
+                  <% end %>  
+                > Vegan
+              </label>
+            </div>
+                
+            <div class="checkbox-inline">
+              <label>
+                <input type="checkbox" name="vegetarian" value=true
+                  <% if @diet3 %>
+                    checked
+                  <% end %>  
+                > Vegetarian
+              </label>
+            </div>
+                
+                
+            <div class="checkbox-inline">
+              <label>
+                <input type="checkbox" name="paleo" value=true
+                  <% if @diet4 %>
+                    checked
+                  <% end %>  
+                > Paleo
+              </label>
+            </div>
+                
+            <div class="checkbox-inline">
+              <label>
+                <input type="checkbox" name="glut" value=true
+                  <% if @diet5 %>
+                    checked
+                  <% end %>  
+                > Gluten free
+              </label>
+            </div>
+                
+            <div class="checkbox-inline">
+              <label>
+                <input type="checkbox" name="lact" value=true
+                  <% if @diet6 %>
+                    checked
+                  <% end %>  
+              > Lactose free
+              </label>
+            </div>
+          </div>
+        </div> 
+        <input type="hidden" name="search_term" value=<%= @search_term %>>
+        
+          <div>
+            <button class="btn btn-default">Refine Search</button>
+    
+        </div>
+      </form>  
+    <% end %>  
+  </section>  
+
     <div class="row">
       <div class="col-sm-8 col-sm-push-2">
         <article>
@@ -26,7 +107,7 @@
   </section>
 </main>
 
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- <script src="bower_components/jquery/dist/jquery.min.js"></script> -->
+<!-- <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
 </body>
 </html>
