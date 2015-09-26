@@ -15,7 +15,7 @@ main > section > header { padding: 0 0 5em; }
 
 #main-nav { margin-bottom: 0; }
 #main-nav a { font-weight: 500; font-size: 120%; margin-right: 20px; }
-#main-nav .navbar-brand { width: 115px; height: 25px; margin: 13px 10px 0 10px; padding: 0; }
+#main-nav .navbar-brand { width: 120px; height: 25px; margin: 13px 10px 0 10px; padding: 0; }
 #main-nav .navbar-brand-icon { width: 22px; height: 30px; margin: 10px 10px 0 10px;}
 #main-nav .navbar-form { padding: 0; }
 #main-nav .navbar-form .form-control { width: 300%; }
