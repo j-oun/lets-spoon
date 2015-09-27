@@ -175,11 +175,11 @@ input[type="checkbox"].checkbox:disabled + label {
           <div style="position: relative;">
           <figure>
             <img class="center-block" src="<%= recipe.image_url %>"/>
-              <% unless @search_term.nil? %>
+              <% if @search_page && !(@saved_recipes.include?(recipe))%>
               <form method="post" action="/saved_recipes">
               <input type = "hidden" name="recipe_id" value="<%= recipe.id %>">
               <button type="submit" class="btn btn-default" aria-label="Left Align" style="position: absolute; top: 5px; left: 455px; background-color: rgba(255,255,255,0.5)">
-              <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,192,203)"></span>
+              <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,128,114)"></span>
               </button>
               </form>
               <% end %>
