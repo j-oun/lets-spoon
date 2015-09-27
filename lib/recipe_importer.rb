@@ -25,16 +25,19 @@ class RecipesImporter
     
     diet_array = [vegetarian_array,pescatarian_array,vegan_array,gluten_free_array]
     
-    diet_array.each_with_index do |diet,diet_index|
-      diet.each do |element|
-            BannedIngredient.create!(diet_id: diet_index+1,ingredient_id: current_ingredient.id) if current_ingredient.name.downcase.match(/.*#{element}.*/)
+
+    Ingredient.all.each do |ingredient|
+      diet_array.each_with_index do |diet,diet_index|
+        diet.each do |element|
+          BannedIngredient.create!(diet_id: diet_index+1,ingredient_id: current_ingredient.id) if current_ingredient.name.downcase.match(/.*#{element}.*/)
+        end
       end
     end
   end
 
   def import(keyword)
    
-    uri = URI.parse("http://api.bigoven.com/recipes?title_kw=#{keyword}&pg=1&rpp=20&api_key=#{API_KEY}")
+    uri = URI.parse("http://api.bigoven.com/recipes?any_kw=#{keyword}&pg=1&rpp=50&api_key=#{API_KEY}")
 
     response = Net::HTTP.get(uri)
 
