@@ -1,6 +1,6 @@
 helpers do
   def current_user
-      @user = User.find(session[:user_id]) if session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
 
     if @user
       @diet1 = UsersDiet.find_by(user_id: @user.id, diet_id: 1)
@@ -17,6 +17,105 @@ helpers do
       @diet5 = UsersDiet.find_by(user_id: 0, diet_id: 5)
       @diet6 = UsersDiet.find_by(user_id: 0, diet_id: 6)
     end
+  end
+
+  def update_diets(id)
+    if params[:pesc]    
+      unless @diet1
+        UsersDiet.create(
+          user_id: id,
+          diet_id: 1
+        )
+      end
+    else     
+      @diet1.destroy if @diet1
+    end
+
+    if params[:vegan]
+      unless @diet2
+        UsersDiet.create(
+          user_id: id,
+          diet_id: 2
+        )
+      end
+    else 
+      @diet2.destroy if @diet2
+    end
+
+    if params[:vegetarian]    
+      unless @diet3
+        UsersDiet.create(
+          user_id: id,
+          diet_id: 3
+        )
+      end
+    else 
+      @diet3.destroy if @diet3
+    end
+
+    if params[:glut]    
+      unless @diet4
+        UsersDiet.create(
+          user_id: id,
+          diet_id: 4
+        )
+      end
+    else     
+      @diet4.destroy if @diet4
+    end
+
+    if params[:paleo] 
+      unless @diet5
+        UsersDiet.create(
+          user_id: id,
+          diet_id: 5
+        )
+      end
+    else 
+      @diet5.destroy if @diet5
+    end
+
+    if params[:lact]
+      unless @diet6
+        UsersDiet.create(
+          user_id: 0,
+          diet_id: 6
+        )
+      end
+    else 
+      @diet6.destroy if @diet6
+    end
+  end
+
+  def query(id)
+    Recipe.find_by_sql(
+    "SELECT r.name, r.description, r.image_url, r.id
+      FROM recipes as r 
+      JOIN recipe_ingredients as r_i 
+        ON r.id = r_i.recipe_id
+      JOIN ingredients as i
+        ON r_i.ingredient_id = i.id
+      WHERE (
+        r.name LIKE '%#{@search_term}%'
+        OR r.description LIKE '%#{@search_term}%'  
+        OR i.name LIKE '%#{@search_term}%' 
+      )  
+      AND r.id NOT IN (
+        SELECT r.id 
+        FROM recipes as r 
+        JOIN recipe_ingredients as r_i 
+          ON r.id = r_i.recipe_id
+        WHERE r_i.ingredient_id IN ( 
+          SELECT ingredient_id 
+          FROM banned_ingredients 
+          WHERE diet_id IN (
+            SELECT diet_id 
+              FROM users_diets
+              WHERE user_id = #{id}
+          )
+        )
+      )  
+      GROUP BY r.id;")
   end
 end
 
@@ -64,35 +163,7 @@ get '/search' do
 
   @search_term = params[:search_term]
 
-  @recipes = Recipe.find_by_sql(
-    "SELECT r.name, r.description, r.image_url, r.id
-      FROM recipes as r 
-      JOIN recipe_ingredients as r_i 
-        ON r.id = r_i.recipe_id
-      JOIN ingredients as i
-        ON r_i.ingredient_id = i.id
-      WHERE (
-        r.name LIKE '%#{@search_term}%'
-        OR r.description LIKE '%#{@search_term}%'  
-        OR i.name LIKE '%#{@search_term}%' 
-      )  
-      AND r.id NOT IN (
-        SELECT r.id 
-        FROM recipes as r 
-        JOIN recipe_ingredients as r_i 
-          ON r.id = r_i.recipe_id
-        WHERE r_i.ingredient_id IN ( 
-          SELECT ingredient_id 
-          FROM banned_ingredients 
-          WHERE diet_id IN (
-            SELECT diet_id 
-              FROM users_diets
-              WHERE user_id = #{user_id}
-          )
-        )
-      )  
-      GROUP BY r.id;")
-  
+  @recipes = query(user_id)
   erb :'search/results'
 end
 
@@ -104,141 +175,13 @@ get '/recipes/:id' do
 end 
 
 post '/users/:id/update' do
-  if params[:pesc]    
-    unless @diet1
-      UsersDiet.create(
-        user_id: @user.id,
-        diet_id: 1
-      )
-    end
-  else     
-    @diet1.destroy if @diet1
-  end
-
-  if params[:vegan]
-    unless @diet2
-      UsersDiet.create(
-        user_id: @user.id,
-        diet_id: 2
-      )
-    end
-  else 
-    @diet2.destroy if @diet2
-  end
-
-  if params[:vegetarian]    
-    unless @diet3
-      UsersDiet.create(
-        user_id: @user.id,
-        diet_id: 3
-      )
-    end
-  else 
-    @diet3.destroy if @diet3
-  end
-
-  if params[:paleo]    
-    unless @diet4
-      UsersDiet.create(
-        user_id: @user.id,
-        diet_id: 4
-      )
-    end
-  else     
-    @diet4.destroy if @diet4
-  end
-
-  if params[:glut] 
-    unless @diet5
-      UsersDiet.create(
-        user_id: @user.id,
-        diet_id: 5
-      )
-    end
-  else 
-    @diet5.destroy if @diet5
-  end
-
-  if params[:lact]
-    unless @diet6
-      UsersDiet.create(
-        user_id: @user.id,
-        diet_id: 6
-      )
-    end
-  else 
-    @diet6.destroy if @diet6
-  end
+  update_diets(@user.id)
 
   redirect "/users/#{params[:id]}"
 end
 
 post '/search/refine' do
-    if params[:pesc]    
-    unless @diet1
-      UsersDiet.create(
-        user_id: 0,
-        diet_id: 1
-      )
-    end
-  else     
-    @diet1.destroy if @diet1
-  end
-
-  if params[:vegan]
-    unless @diet2
-      UsersDiet.create(
-        user_id: 0,
-        diet_id: 2
-      )
-    end
-  else 
-    @diet2.destroy if @diet2
-  end
-
-  if params[:vegetarian]    
-    unless @diet3
-      UsersDiet.create(
-        user_id: 0,
-        diet_id: 3
-      )
-    end
-  else 
-    @diet3.destroy if @diet3
-  end
-
-  if params[:paleo]    
-    unless @diet4
-      UsersDiet.create(
-        user_id: 0,
-        diet_id: 4
-      )
-    end
-  else     
-    @diet4.destroy if @diet4
-  end
-
-  if params[:glut] 
-    unless @diet5
-      UsersDiet.create(
-        user_id: 0,
-        diet_id: 5
-      )
-    end
-  else 
-    @diet5.destroy if @diet5
-  end
-
-  if params[:lact]
-    unless @diet6
-      UsersDiet.create(
-        user_id: 0,
-        diet_id: 6
-      )
-    end
-  else 
-    @diet6.destroy if @diet6
-  end
+  update_diets(0)
 
   if @user
     user_id = @user.id
@@ -248,42 +191,14 @@ post '/search/refine' do
 
   @search_term = params[:search_term]
 
-  @recipes = Recipe.find_by_sql(
-    "SELECT r.name, r.description, r.image_url, r.id
-      FROM recipes as r 
-      JOIN recipe_ingredients as r_i 
-        ON r.id = r_i.recipe_id
-      JOIN ingredients as i
-        ON r_i.ingredient_id = i.id
-      WHERE (
-        r.name LIKE '%#{@search_term}%'
-        OR r.description LIKE '%#{@search_term}%'  
-        OR i.name LIKE '%#{@search_term}%' 
-      )  
-      AND r.id NOT IN (
-        SELECT r.id 
-        FROM recipes as r 
-        JOIN recipe_ingredients as r_i 
-          ON r.id = r_i.recipe_id
-        WHERE r_i.ingredient_id IN ( 
-          SELECT ingredient_id 
-          FROM banned_ingredients 
-          WHERE diet_id IN (
-            SELECT diet_id 
-              FROM users_diets
-              WHERE user_id = #{user_id}
-          )
-        )
-      )  
-      GROUP BY r.id;")
-  # byebug
+  @recipes = query(@user_id)
 
-      @diet1 = UsersDiet.find_by(user_id: 0, diet_id: 1)
-      @diet2 = UsersDiet.find_by(user_id: 0, diet_id: 2)
-      @diet3 = UsersDiet.find_by(user_id: 0, diet_id: 3)
-      @diet4 = UsersDiet.find_by(user_id: 0, diet_id: 4)
-      @diet5 = UsersDiet.find_by(user_id: 0, diet_id: 5)
-      @diet6 = UsersDiet.find_by(user_id: 0, diet_id: 6)
+  @diet1 = UsersDiet.find_by(user_id: 0, diet_id: 1)
+  @diet2 = UsersDiet.find_by(user_id: 0, diet_id: 2)
+  @diet3 = UsersDiet.find_by(user_id: 0, diet_id: 3)
+  @diet4 = UsersDiet.find_by(user_id: 0, diet_id: 4)
+  @diet5 = UsersDiet.find_by(user_id: 0, diet_id: 5)
+  @diet6 = UsersDiet.find_by(user_id: 0, diet_id: 6)
   
   erb :'search/results'
 end
