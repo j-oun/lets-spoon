@@ -9,6 +9,12 @@
         </header>
         <figure>
           <img src="<%= @recipe.image_url %>"/>
+            <form method="post" action="/saved_recipes">
+            <input type = "hidden" name="recipe_id" value="<%= @recipe.id %>">
+            <button type="submit" class="btn btn-default" aria-label="Left Align" style="position: absolute; top: 5px; left: 455px; background-color: rgba(255,255,255,0.5)">
+            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,192,203)"></span>
+            </button>
+            </form>
         </figure>
         <p class="lead"><%= @recipe.description%> </p>
         <section class="ingredients">
