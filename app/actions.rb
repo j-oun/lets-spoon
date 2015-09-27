@@ -117,10 +117,28 @@ helpers do
       )  
       GROUP BY r.id;")
   end
+
+  @saved_recipes = Array.new
+  def saved_recipe_query
+    @saved_recipes = Recipe.find_by_sql(
+    "SELECT r.name, r.description, r.image_url, r.id
+      FROM recipes as r 
+      JOIN saved_recipes as s_r 
+        ON r.id = s_r.recipe_id
+      JOIN users as u
+        ON s_r.user_id = u.id
+      WHERE r.id in(
+        SELECT id from saved_recipes WHERE user_id=#{@user.id} 
+      )  
+      GROUP BY r.id;")
+  end
+
+  @search_page = true
 end
 
 before do
   current_user
+  saved_recipe_query
 end
 
 get '/' do
@@ -164,6 +182,7 @@ get '/search' do
   @search_term = params[:search_term]
 
   @recipes = query(user_id)
+  @search_page = true
   erb :'search/results'
 end
 
@@ -199,29 +218,18 @@ post '/search/refine' do
   @diet4 = UsersDiet.find_by(user_id: 0, diet_id: 4)
   @diet5 = UsersDiet.find_by(user_id: 0, diet_id: 5)
   @diet6 = UsersDiet.find_by(user_id: 0, diet_id: 6)
-  
+  @search_page = true
   erb :'search/results'
 end
 
 post '/saved_recipes' do 
   SavedRecipe.create(user_id: @user.id, recipe_id: params[:recipe_id])
-  # id = @user.id
   path = "/users/" + "#{@user.id}/" + "recipes"
   redirect path
 end
 
 get '/users/:id/recipes' do |id|
-  @recipes = Recipe.find_by_sql(
-    "SELECT r.name, r.description, r.image_url, r.id
-      FROM recipes as r 
-      JOIN saved_recipes as s_r 
-        ON r.id = s_r.recipe_id
-      JOIN users as u
-        ON s_r.user_id = u.id
-      WHERE r.id in(
-        SELECT id from saved_recipes WHERE user_id=#{@user.id} 
-      )  
-      GROUP BY r.id;")
-  @search_term = nil
+  @recipes = saved_recipe_query
+  @search_page = false
   erb :'search/results'
 end
