@@ -1,45 +1,44 @@
-<body>
-
 <style>
-input[type="checkbox"].checkbox {
-    display: none;
-}
-input[type="checkbox"].checkbox + label {
-    display: inline;
-    position: relative;
-    background-color: #BDBDBD;
-    
-    /*label styling*/
-    padding: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 15px;
-    color: #ffffff;
-    vertical-align: baseline;
-    white-space: nowrap;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-}
-input[type="checkbox"].checkbox:checked + label {
-    background-color: #c11f0f;
-}
+  input[type="checkbox"].checkbox {
+      display: none;
+  }
+  input[type="checkbox"].checkbox + label {
+      display: inline;
+      position: relative;
+      background-color: #BDBDBD;
+      
+      /*label styling*/
+      padding: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 15px;
+      color: #ffffff;
+      vertical-align: baseline;
+      white-space: nowrap;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+  }
+  input[type="checkbox"].checkbox:checked + label {
+      background-color: #c11f0f;
+  }
 
-input[type="checkbox"].checkbox:disabled + label {
-    opacity: 0.5;
-}
+  input[type="checkbox"].checkbox:disabled + label {
+      opacity: 0.5;
+  }
 
-#refine_search {
-  padding: 1em;
-  margin-top: 1.5em;
-  margin-bottom: -1em;
-}
+  #refine_search {
+    padding: 1em;
+    margin-top: 1.5em;
+    margin-bottom: -1em;
+  }
 </style>
+
 <main>
   <section class="recipes container">
     <header>
-      <% if @search_term.nil? %>
+      <% if @search_term.nil? && @user %>
         <h1 class="text-center">My Saved Recipes</h1>
       <% else %>
         <h1 class="text-center">Search results for: <%= @search_term %></h1>
@@ -47,161 +46,91 @@ input[type="checkbox"].checkbox:disabled + label {
     </header>
 
     <% unless @user %>
-    <div id= "refine_search" class="text-center">
-    <form action="/search/refine" method="post">
-    <div class="form-group" class="container">
-            <!-- <label for="inputDiet3" class="col-sm-2 control-label">Diet</label> -->
+      <div id= "refine_search" class="text-center">
+        <form action="/search/refine" method="post">
+          <div class="form-group" class="container">
             <div class="center-block">
-        <input type="checkbox" id="1" class="checkbox" name="pesc" value=true  
-          <% if @diet1 %>
-            checked
-          <% end %>>
-        <label for="1">Pescatarian</label>
+              <input type="checkbox" id="1" class="checkbox" name="pesc" value=true  
+                <% if @diet1 %>
+                  checked
+                <% end %>>
+              <label for="1">Pescatarian</label>
 
-        <input type="checkbox" id="2" class="checkbox" name="vegan" value=true 
-          <% if @diet2 %>
-            checked
-          <% end %>>
-        <label for="2">Vegan</label>
+              <input type="checkbox" id="2" class="checkbox" name="vegan" value=true 
+                <% if @diet2 %>
+                  checked
+                <% end %>>
+              <label for="2">Vegan</label>
 
-        <input type="checkbox" id="3" class="checkbox" name="vegetarian" value=true 
-          <% if @diet3 %>
-            checked
-          <% end %>>
-        <label for="3">Vegetarian</label>
+              <input type="checkbox" id="3" class="checkbox" name="vegetarian" value=true 
+                <% if @diet3 %>
+                  checked
+                <% end %>>
+              <label for="3">Vegetarian</label>
 
-        <input type="checkbox" id="4" class="checkbox" name="glut" value=true 
-          <% if @diet4 %>
-            checked
-          <% end %>>
-        <label for="4">Gluten Free</label>
+              <input type="checkbox" id="4" class="checkbox" name="glut" value=true 
+                <% if @diet4 %>
+                  checked
+                <% end %>>
+              <label for="4">Gluten-Free</label>
 
-        <input type="checkbox" id="5" class="checkbox" name="paleo" value=true 
-          <% if @diet5 %>
-            checked
-          <% end %>>
-        <label for="5">Paleo</label>
+              <input type="checkbox" id="5" class="checkbox" name="paleo" value=true 
+                <% if @diet5 %>
+                  checked
+                <% end %>>
+              <label for="5">Paleo</label>
 
-        <input type="checkbox" id="6" class="checkbox" name="lact" value=true 
-          <% if @diet6 %>
-            checked
-          <% end %>>
-        <label for="6">Lactose Free</label>              
+              <input type="checkbox" id="6" class="checkbox" name="lact" value=true 
+                <% if @diet6 %>
+                  checked
+                <% end %>>
+              <label for="6">Lactose-Free</label>              
+            </div> 
 
-      
-
-             <!--  <div class="checkbox">
-                 <input type="checkbox" id="1" class="checkbox" name="pesc" value=true 
-                    <% if @diet1 %>
-                      checked
-                    <% end %>  
-                  >
-                <label for="1">
-                  Pescatarian
-                </label>
-              </div>
-          
-              <div class="checkbox">
-              <input type="checkbox" id="2" class="checkbox"   name="vegan" value=true
-                   <% if @diet2 %>
-                      checked
-                    <% end %>  
-                  >
-                <label for="2">
-                   Vegan
-                </label>
-              </div>
-                  
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="vegetarian" value=true
-                    <% if @diet3 %>
-                      checked
-                    <% end %>  
-                  > Vegetarian
-                </label>
-              </div>
-                  
-                  
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="paleo" value=true
-                    <% if @diet4 %>
-                      checked
-                    <% end %>  
-                  > Paleo
-                </label>
-              </div>
-                  
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="glut" value=true
-                    <% if @diet5 %>
-                      checked
-                    <% end %>  
-                  > Gluten free
-                </label>
-              </div>
-                  
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="lact" value=true
-                    <% if @diet6 %>
-                      checked
-                    <% end %>  
-                > Lactose free
-                </label>
-              </div>
-                   </div> -->
-           </div> 
-           <input type="hidden" name="search_term" value=<%= @search_term %>>
+            <input type="hidden" name="search_term" value=<%= @search_term %>>
+            
             <div class="form-group" id="refine_search">
               <!-- <div class="col-sm-offset-3 col-sm-1"> -->
                 <button class="btn btn-default center-block">Refine Search</button>
               <!-- </div> -->
             </div>
-          </form>  
-          <% end %>
-         </div>   
-
-         </form>
-         </div>
+          </form>          
+        </div>   
+      </div>
+    <% end %>
 
     <div class="row">
       <div class="col-sm-8 col-sm-push-2">
         <article>
           <% @recipes.each do |recipe| %>
-          <header>
-            <h2 class="text-center"><%= recipe.name %></h2>
-          </header>
-          <div style="position: relative;">
-          <figure>
-            <img class="center-block" src="<%= recipe.image_url %>"/>
-              <% if @user %>
-                <% if @search_page && !(@saved_recipes.include?(recipe))%>
-                <form method="post" action="/saved_recipes">
-                <input type = "hidden" name="recipe_id" value="<%= recipe.id %>">
-                <button type="submit" class="btn btn-default" aria-label="Left Align" style="position: absolute; top: 5px; left: 455px; background-color: rgba(255,255,255,0.5)">
-                <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,128,114)"></span>
-                </button>
-                </form>
+            <header>
+              <h2 class="text-center"><%= recipe.name %></h2>
+            </header>
+          
+            <div style="position: relative;">
+              <figure>
+              <img class="center-block" src="<%= recipe.image_url %>"/>
+                <% if @user %>
+                  <% if @search_page && !(@saved_recipes.include?(recipe))%>
+                    <form method="post" action="/saved_recipes">
+                    <input type = "hidden" name="recipe_id" value="<%= recipe.id %>">
+                      <button type="submit" class="btn btn-default" aria-label="Left Align" style="position: absolute; top: 5px; left: 455px; background-color: rgba(255,255,255,0.5)">
+                      <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,128,114)"></span>
+                      </button>
+                    </form>
+                  <% end %>
                 <% end %>
-              <% end %>
-          </figure>
-          </div>
-          <p class="lead"><%= recipe.description %></p>
-          <!-- <p class="pull-right"> -->
-          <p>
-            <a href="/recipes/<%= recipe.id %>" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
-          </p>
+              </figure>
+            </div>
+          
+            <p class="lead"><%= recipe.description %></p>
+            <!-- <p class="pull-right"> -->
+            <p>
+              <a href="/recipes/<%= recipe.id %>" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
+            </p>
           <% end %>
         </article>
       </div>
     </div>
   </section>
 </main>
-
-<!-- <script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
-</body>
-</html>
