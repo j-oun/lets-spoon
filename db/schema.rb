@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150926160652) do
+ActiveRecord::Schema.define(version: 20150926231531) do
 
   create_table "banned_ingredients", force: :cascade do |t|
     t.integer  "diet_id"
@@ -45,12 +45,21 @@ ActiveRecord::Schema.define(version: 20150926160652) do
     t.string   "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "saved_recipes_id"
+  end
+
+  create_table "saved_recipes", force: :cascade do |t|
+    t.integer "recipe_id"
+    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "password"
+    t.string  "name"
+    t.string  "email"
+    t.string  "password"
+    t.integer "diet_id"
+    t.integer "saved_recipes_id"
   end
 
   create_table "users_diets", force: :cascade do |t|
