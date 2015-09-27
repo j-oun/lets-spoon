@@ -128,9 +128,10 @@ helpers do
       JOIN users as u
         ON s_r.user_id = u.id
       WHERE r.id in(
-        SELECT id from saved_recipes WHERE user_id=#{@user.id} 
+        SELECT recipe_id from saved_recipes WHERE user_id=#{@user.id} 
       )  
       GROUP BY r.id;") if @user
+    
   end
 
   @search_page = true
@@ -138,7 +139,6 @@ end
 
 before do
   current_user
-  saved_recipe_query
 end
 
 get '/' do
@@ -232,7 +232,8 @@ end
 
 get '/users/:id/recipes' do |id|
   @recipes = saved_recipe_query
-  @saved_recipes = saved_recipe_query
+  @saved_recipes = @recipes
   @search_page = false
+  
   erb :'search/results'
 end
