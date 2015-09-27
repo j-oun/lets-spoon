@@ -187,6 +187,16 @@ get '/search' do
   erb :'search/results'
 end
 
+get '/homepage_search/:diet_id' do
+  unless @user
+    UsersDiet.create(
+      user_id: 0,
+      diet_id: params[:diet_id]
+    )
+  end
+  redirect '/search'
+end
+
 get '/recipes/:id' do
   @recipe = Recipe.find(params[:id])
   @saved_recipes = saved_recipe_query
