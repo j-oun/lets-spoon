@@ -191,7 +191,7 @@ post '/search/refine' do
 
   @search_term = params[:search_term]
 
-  @recipes = query(@user_id)
+  @recipes = query(user_id)
 
   @diet1 = UsersDiet.find_by(user_id: 0, diet_id: 1)
   @diet2 = UsersDiet.find_by(user_id: 0, diet_id: 2)
