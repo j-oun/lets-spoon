@@ -4,12 +4,10 @@ figure { margin: 2em 0; }
 
 img { max-width: 100%; }
 
-main > section > header { padding: 0 0 5em; }
-
 .recipes { width: 800px; background: #fff; }
 .recipes header { background: #fff; font-family: 'Geomanist'; font-weight: 900; }
 .recipes article { padding: 0 0 10em; }
-.recipes h1 { font-size: 5em; margin-top: 1em; }
+.recipes h1 { font-size: 5em; }
 .recipes .directions,
 .recipes .ingredients { font-size: 150%; font-weight: 300; margin: 2em 0; }
 .recipes .results { font-size: 3em; font-family: 'Geomanist'; font-weight: 900; }
@@ -72,21 +70,17 @@ main > section > header { padding: 0 0 5em; }
 
 #main-container .main-img { position: relative; width: 100%; }
 #main-container .main-text { position: absolute; top: 250px; font-size: 180%; text-align: center; width: 100%; color: white; }
-#main-container h2 span { color: white; 
-   font: bold 24px/45px Helvetica, Sans-Serif; 
-   letter-spacing: -1px;  
-   background: rgb(0, 0, 0); /* fallback color */
-   background: rgba(0, 0, 0, 0.7);
-   padding: 10px; }
+#main-container .navbar { height: 55px; margin-bottom: 0px; margin-top: -20px; }
+#main-container .navbar h3 { font-size: 2.8em; font-weight: bold; color: white; margin-top: 5px; margin-bottom: 0px; }
 
-.landing-page { width: 800px; background: #fff; }
-.landing-page article { padding: 0 0 2em; }
+
+.landing-page { height: 420px; width: 800px; background: #fff; }
+.landing-page article { padding: 0 0 1em; }
 .landing-page h1 { font-size: 5em; margin-top: 10px; }
-.landing-page .pic-1 { width: 140px; height: 140px;}
-.landig-page .text-phrase { margin-top: 10px; }
-.landing-page .row:first-of-type { margin-top: 2em; }
+.landing-page .pic-1 { width: 140px; height: 140px; }
+.landing-page .row { margin-bottom: 10em; }
+.landing-page .row:first-of-type { margin-top: 0.3em; }
+.landing-page .row img { position: absolute; left: 0; top: 0; padding: 7px;}
+.landing-page .row p { z-index: 100; position: relative; color: white; margin-top: 20px; margin-left:5px; }
 
-@font-face {
-  font-family: 'Geomanist';
-  src: url("/fonts/geomanist-regular-webfont.ttf");
-}
+@font-face { font-family: 'Geomanist'; src: url("/fonts/geomanist-regular-webfont.ttf"); }
