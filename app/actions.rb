@@ -203,3 +203,25 @@ post '/search/refine' do
   erb :'search/results'
 end
 
+post '/saved_recipes' do 
+  SavedRecipe.create(user_id: @user.id, recipe_id: params[:recipe_id])
+  # id = @user.id
+  path = "/users/" + "#{@user.id}/" + "recipes"
+  redirect path
+end
+
+get '/users/:id/recipes' do |id|
+  @recipes = Recipe.find_by_sql(
+    "SELECT r.name, r.description, r.image_url, r.id
+      FROM recipes as r 
+      JOIN saved_recipes as s_r 
+        ON r.id = s_r.recipe_id
+      JOIN users as u
+        ON s_r.user_id = u.id
+      WHERE r.id in(
+        SELECT id from saved_recipes WHERE user_id=#{@user.id} 
+      )  
+      GROUP BY r.id;")
+  @search_term = nil
+  erb :'search/results'
+end

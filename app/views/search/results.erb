@@ -37,7 +37,11 @@ input[type="checkbox"].checkbox:disabled + label {
 <main>
   <section class="recipes container">
     <header>
-      <h1 class="text-center">Search results for: <%= @search_term %></h1>
+      <% if @search_term.nil? %>
+        <h1 class="text-center">My Saved Recipes</h1>
+      <% else %>
+        <h1 class="text-center">Search results for: <%= @search_term %></h1>
+      <% end %>
     </header>
 
     <% unless @user %>
@@ -168,9 +172,19 @@ input[type="checkbox"].checkbox:disabled + label {
           <header>
             <h2 class="text-center"><%= recipe.name %></h2>
           </header>
+          <div style="position: relative;">
           <figure>
             <img class="center-block" src="<%= recipe.image_url %>"/>
+              <% unless @search_term.nil?%>
+              <form method="post" action="/saved_recipes">
+              <input type = "hidden" name="recipe_id" value="<%= recipe.id %>">
+              <button type="submit" class="btn btn-default" aria-label="Left Align" style="position: absolute; top: 5px; left: 455px; background-color: rgba(255,255,255,0.5)">
+              <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,192,203)"></span>
+              </button>
+              </form>
+              <% end %>
           </figure>
+          </div>
           <p class="lead"><%= recipe.description %></p>
           <!-- <p class="pull-right"> -->
           <p>

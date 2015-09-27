@@ -37,7 +37,7 @@ class RecipesImporter
 
   def import(keyword)
    
-    uri = URI.parse("http://api.bigoven.com/recipes?title_kw=#{keyword}&pg=1&rpp=20&api_key=#{API_KEY}")
+    uri = URI.parse("http://api.bigoven.com/recipes?any_kw=#{keyword}&pg=1&rpp=50&api_key=#{API_KEY}")
 
     response = Net::HTTP.get(uri)
 
