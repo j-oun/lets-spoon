@@ -7,17 +7,21 @@
         <header>
           <h1 class="text-center"><%= @recipe.name %></h1>
         </header>
+        <div style="position: relative;">
+            <form method="post" action="/saved_recipes">
         <figure>
           <img src="<%= @recipe.image_url %>"/>
-          <% unless @saved_recipes.include?(@recipe)%>
-            <form method="post" action="/saved_recipes">
             <input type = "hidden" name="recipe_id" value="<%= @recipe.id %>">
-            <button type="submit" class="btn btn-default" aria-label="Left Align" style="position: absolute; top: 285px; left: 605px; background-color: rgba(255,255,255,0.5)">
-            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,128,114)"></span>
-            </button>
-            </form>
-          <% end %>
+            <% if @user %>
+              <% unless @saved_recipes.include?(@recipe)%>
+              <button type="submit" class="btn btn-default" aria-label="Left Align" style="position: absolute; top: 5px; left: 590px; background-color: rgba(255,255,255,0.5)">
+              <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,128,114)"></span>
+              </button>
+              </form>
+              <% end %>
+            <% end %>
         </figure>
+         </div>
         <p class="lead"><%= @recipe.description%> </p>
         <section class="ingredients">
           <h2>Ingredients</h2>

@@ -118,9 +118,9 @@ helpers do
       GROUP BY r.id;")
   end
 
-  @saved_recipes = Array.new
+  
   def saved_recipe_query
-    @saved_recipes = Recipe.find_by_sql(
+    Recipe.find_by_sql(
     "SELECT r.name, r.description, r.image_url, r.id
       FROM recipes as r 
       JOIN saved_recipes as s_r 
@@ -130,7 +130,7 @@ helpers do
       WHERE r.id in(
         SELECT id from saved_recipes WHERE user_id=#{@user.id} 
       )  
-      GROUP BY r.id;")
+      GROUP BY r.id;") if @user
   end
 
   @search_page = true
@@ -180,15 +180,16 @@ get '/search' do
   end
 
   @search_term = params[:search_term]
-
+  @saved_recipes = saved_recipe_query
   @recipes = query(user_id)
   @search_page = true
+  
   erb :'search/results'
 end
 
 get '/recipes/:id' do
   @recipe = Recipe.find(params[:id])
-
+  @saved_recipes = saved_recipe_query
   @instructions = @recipe.instructions.split('. ')
   erb :'recipes/recipe'
 end 
@@ -219,6 +220,7 @@ post '/search/refine' do
   @diet5 = UsersDiet.find_by(user_id: 0, diet_id: 5)
   @diet6 = UsersDiet.find_by(user_id: 0, diet_id: 6)
   @search_page = true
+  @saved_recipes = saved_recipe_query
   erb :'search/results'
 end
 
@@ -230,6 +232,7 @@ end
 
 get '/users/:id/recipes' do |id|
   @recipes = saved_recipe_query
+  @saved_recipes = saved_recipe_query
   @search_page = false
   erb :'search/results'
 end
