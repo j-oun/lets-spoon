@@ -142,6 +142,7 @@ before do
 end
 
 get '/' do
+  UsersDiet.where(user: 0).each { |diet| diet.destroy }
   erb :index
 end
 
@@ -185,6 +186,16 @@ get '/search' do
   @search_page = true
   
   erb :'search/results'
+end
+
+get '/homepage_search/:diet_id' do
+  unless @user
+    UsersDiet.create(
+      user_id: 0,
+      diet_id: params[:diet_id]
+    )
+  end
+  redirect '/search'
 end
 
 get '/recipes/:id' do
