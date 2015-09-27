@@ -142,6 +142,7 @@ before do
 end
 
 get '/' do
+  UsersDiet.where(user: 0).each { |diet| diet.destroy }
   erb :index
 end
 
