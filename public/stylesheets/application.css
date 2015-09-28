@@ -32,6 +32,7 @@ img { max-width: 100%; }
 .user .update { margin-left: 10%; margin-top: 2em;}
 .user .checkbox { height: 10px; }
 .user .check { margin-left: 70px; margin-top: -12px; }
+.user #logo-pic { max-width: 100%; width: auto; height: auto; }
 
 .navbar,
 .navbar-default { background-color: #c11f0f; border-color: #9a1a0c; }
