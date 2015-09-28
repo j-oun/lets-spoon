@@ -241,10 +241,11 @@ post '/saved_recipes' do
   redirect path
 end
 
+
 get '/users/:id/recipes' do |id|
   @recipes = saved_recipe_query
   @saved_recipes = @recipes
   @search_page = false
   
-  erb :'search/results'
+  erb :'/recipes/saved_recipes'
 end

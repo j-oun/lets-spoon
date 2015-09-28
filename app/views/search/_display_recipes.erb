@@ -1,0 +1,87 @@
+<% unless @user %>
+  <div id= "refine_search" class="text-center">
+    <form action="/search/refine" method="post">
+      <div class="form-group" class="container">
+        <div class="center-block">
+          <input type="checkbox" id="1" class="checkbox" name="pesc" value=true  
+            <% if @diet1 %>
+              checked
+            <% end %>>
+          <label for="1">Pescatarian</label>
+
+          <input type="checkbox" id="2" class="checkbox" name="vegan" value=true 
+            <% if @diet2 %>
+              checked
+            <% end %>>
+          <label for="2">Vegan</label>
+
+          <input type="checkbox" id="3" class="checkbox" name="vegetarian" value=true 
+            <% if @diet3 %>
+              checked
+            <% end %>>
+          <label for="3">Vegetarian</label>
+
+          <input type="checkbox" id="4" class="checkbox" name="glut" value=true 
+            <% if @diet4 %>
+              checked
+            <% end %>>
+          <label for="4">Gluten-Free</label>
+
+          <input type="checkbox" id="5" class="checkbox" name="paleo" value=true 
+            <% if @diet5 %>
+              checked
+            <% end %>>
+          <label for="5">Paleo</label>
+
+          <input type="checkbox" id="6" class="checkbox" name="lact" value=true 
+            <% if @diet6 %>
+              checked
+            <% end %>>
+          <label for="6">Lactose-Free</label>              
+        </div> 
+
+        <input type="hidden" name="search_term" value=<%= @search_term %>>
+        
+        <div class="form-group" id="refine_search">
+          <!-- <div class="col-sm-offset-3 col-sm-1"> -->
+            <button class="btn btn-default center-block">Refine Search</button>
+          <!-- </div> -->
+        </div>
+      </form>          
+    </div>   
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-sm-8 col-sm-push-2">
+    <article>
+      <% @recipes.each do |recipe| %>
+        <header>
+          <h2 class="text-center"><%= recipe.name %></h2>
+        </header>
+      
+        <div style="position: relative;">
+          <figure>
+          <img class="center-block" src="<%= recipe.image_url %>"/>
+            <% if @user %>
+              <% if @search_page && !(@saved_recipes.include?(recipe))%>
+                <form method="post" action="/saved_recipes">
+                <input type = "hidden" name="recipe_id" value="<%= recipe.id %>">
+                  <button type="submit" class="btn btn-default" aria-label="Left Align" style="position: absolute; top: 5px; left: 455px; background-color: rgba(255,255,255,0.5)">
+                  <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: rgb(255,128,114)"></span>
+                  </button>
+                </form>
+              <% end %>
+            <% end %>
+          </figure>
+        </div>
+      
+        <p class="lead"><%= recipe.description %></p>
+        <!-- <p class="pull-right"> -->
+        <p>
+          <a href="/recipes/<%= recipe.id %>" class="btn btn-primary btn-lg">View Recipe <i class="glyphicon glyphicon-chevron-right"></i></a>
+        </p>
+      <% end %>
+    </article>
+  </div>
+</div>
