@@ -74,13 +74,13 @@ img { max-width: 100%; }
 #main-container .navbar h3 { font-size: 2.8em; font-weight: bold; color: white; margin-top: 5px; margin-bottom: 0px; }
 
 
-.landing-page { height: 420px; width: 800px; background: #fff; }
+.landing-page { padding: 0; height: 405px; width: 800px; background: #fff; }
 .landing-page article { padding: 0 0 1em; }
 .landing-page h1 { font-size: 5em; margin-top: 10px; }
-.landing-page .pic-1 { width: 140px; height: 140px; }
-.landing-page .row { margin-bottom: 10em; }
-.landing-page .row:first-of-type { margin-top: 0.3em; }
-.landing-page .row img { position: absolute; left: 0; top: 0; padding: 7px;}
-.landing-page .row p { z-index: 100; position: relative; color: white; margin-top: 1.9em; text-align: center; text-transform: uppercase; font-size: 2.9em; margin-bottom: -85px; }
+.landing-page .row { margin-bottom: 8.5em; }
+.landing-page .row:first-of-type { margin-top: 0.5em; margin-bottom: 10.5em; }
+.landing-page .row img { position: absolute; left: 0; top: 0; padding: 7px; }
+.landing-page .row p { z-index: 100; position: relative; color: white; margin-top: 1.4em; text-align: center; text-transform: uppercase; font-size: 2.79em; margin-bottom: -85px; }
 
 @font-face { font-family: 'Geomanist'; src: url("/fonts/geomanist-regular-webfont.ttf"); }
+
