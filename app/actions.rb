@@ -78,7 +78,7 @@ helpers do
     if params[:lact]
       unless @diet6
         UsersDiet.create(
-          user_id: 0,
+          user_id: id,
           diet_id: 6
         )
       end
@@ -115,7 +115,8 @@ helpers do
           )
         )
       )  
-      GROUP BY r.id;")
+      GROUP BY r.id
+      ORDER BY NEWID();")
   end
 
   
