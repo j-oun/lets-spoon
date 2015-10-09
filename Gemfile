@@ -11,10 +11,9 @@ gem 'sinatra-activerecord'
 gem 'puma'
 gem 'tux'
 gem 'pry'
-gem 'sqlite3'
 
 group :development, :test do
-  # gem 'byebug'
+  gem 'byebug'
   gem 'shotgun'
   gem 'sqlite3'
 end
