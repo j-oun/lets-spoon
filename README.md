@@ -2,7 +2,7 @@ Let's Spoon!
 =============
 https://letsspoon.herokuapp.com
 
-Recipe search site with recipes from the Big Oven API
+Recipe search site built with Sinatra/ActiveRecord, with recipes from the Big Oven API
 
 Lighthouse Labs midterm project: 5 days to produce a webapp
 
